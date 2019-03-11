@@ -55,15 +55,9 @@ public class ServiceImpl implements Service {
     }
 
     public Tariff findTariff(MobileCompany company, int subscriptionFee) {
-        setCompanyOptional(company);
-        if (companyOptional.isPresent()) {
-            for (Tariff t : companyOptional.get().getTariffs()) {
-                if (t.getSubscriptionFee() == subscriptionFee) {
-                    return t;
-                }
-            }
-        }
-        return null;
+        return company.getTariffs().stream()
+                .filter(tariff -> tariff.getSubscriptionFee() == subscriptionFee)
+                .findFirst().get();
     }
 
     private void setCompanyOptional(MobileCompany company) {
